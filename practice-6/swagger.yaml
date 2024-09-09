@@ -1,0 +1,99 @@
+openapi: 3.0.0
+info:
+  title: Bookshop API
+  version: 1.0.0
+servers:
+  - url: https://api.bookshop.com/v1
+paths:
+  /books:
+    get:
+      summary: Получить список книг
+      operationId: getListBooks
+      tags:
+        - Книги
+      responses:
+        '200':
+          description: Список книг
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Books'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Добавить книгу
+      operationId: addBook
+      tags:
+        - Книги
+      responses:
+        '201':
+          description: Null response
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /books/{id}:
+    get:
+      summary: Получить книгу по ID
+      operationId: getBookById
+      tags:
+        - Книги
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Книга
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Book:
+      type: object
+      required:
+        - id
+        - title
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        author:
+          type: string
+        published_date:
+          type: string
+          format: date-time
+    Books:
+      type: array
+      items:
+        $ref: '#/components/schemas/Book'
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int64
+        message:
+          type: string
