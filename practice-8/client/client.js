@@ -1,4 +1,4 @@
-const PROTO_PATH = "./productlist.proto";
+const PROTO_PATH = "../productlist.proto";
 
 const grps = require("@grpc/grpc-js");
 
